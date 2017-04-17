@@ -16,7 +16,7 @@ use yii\web\UrlRuleInterface;
  */
 class TranslatableUrlRule extends Object implements UrlRuleInterface {
     /**
-     * @var string[] Patterns. Key is language ID
+     * @var string[] URL patterns. Key is language ID
      */
     public $patterns;
 
@@ -26,9 +26,14 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
     public $route;
 
     /**
-     * @var UrlRule[]
+     * @var UrlRule[] Conventional URL rule objects, key is language ID
      */
     private $rules;
+
+    /**
+     * @var string Parameter for determining which language to use (instead of app language)
+     */
+    public $languageParam = 'url-language';
 
     /**
      * Initialize TranslatableUrlRule
@@ -60,7 +65,7 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
     /**
      * Parses the given request and returns the corresponding route and parameters.
      * @param UrlManager $manager the URL manager
-     * @param Request    $request the request component
+     * @param Request $request    the request component
      * @return array|bool the parsing result. The route and the parameters are returned as an array.
      *                            If false, it means this rule cannot be used to parse this path info.
      */
@@ -84,15 +89,16 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
     /**
      * Creates a URL according to the given route and parameters.
      * @param UrlManager $manager the URL manager
-     * @param string     $route   the route. It should not have slashes at the beginning or the end.
-     * @param array      $params  the parameters
+     * @param string $route       the route. It should not have slashes at the beginning or the end.
+     * @param array $params       the parameters
      * @return string|bool the created URL, or false if this rule cannot be used for creating this URL.
      */
     public function createUrl($manager, $route, $params) {
         $language = Yii::$app->language;
 
-        if (isset($params['language'])) {
-            $language = $params['language'];
+        if (isset($params[$this->languageParam])) {
+            $language = $params[$this->languageParam];
+            unset($params[$this->languageParam]);
         }
 
         if (isset($this->rules[$language])) {
