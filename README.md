@@ -1,3 +1,7 @@
+[![Latest Stable Version](https://img.shields.io/packagist/v/geertw/yii2-translatable-url-rule.svg)](https://packagist.org/packages/geertw/yii2-translatable-url-rule)
+[![Total Downloads](https://img.shields.io/packagist/dt/geertw/yii2-translatable-url-rule.svg)](https://packagist.org/packages/geertw/yii2-translatable-url-rule)
+[![License](https://img.shields.io/packagist/l/geertw/yii2-translatable-url-rule.svg)](https://packagist.org/packages/geertw/yii2-translatable-url-rule)
+
 Yii2 TranslatableUrlRule
 ========================
 
@@ -39,7 +43,7 @@ Update your URL rules to use this class and set the patterns per language.
 <?
 $rules = [
     [
-        'class' => '\geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule',
+        'class' => 'geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule',
         'patterns' => [
             'en' => '/signup',
             'nl' => '/aanmelden',
@@ -48,7 +52,7 @@ $rules = [
         'route' => 'user/signup',
     ],
     [
-        'class' => '\geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule',
+        'class' => 'geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule',
         'patterns' => [
             'en' => '/user/<username>',
             'nl' => '/gebruiker/<username>',
@@ -71,7 +75,7 @@ return [
     'components' => [
         'urlManager'   => [
             'ruleConfig' => [
-                'class' => '\geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule'
+                'class' => 'geertw\Yii2\TranslatableUrlRule\TranslatableUrlRule'
             ],
             'rules' => $rules,
             // Additional UrlManager configuration
