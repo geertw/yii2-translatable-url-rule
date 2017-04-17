@@ -1,0 +1,21 @@
+{
+    "name": "geertw/yii2-translatable-url-rule",
+    "description": "A custom URL rule class for Yii 2 which allows to create translated URL rules",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","i18n","translation","urlmanager"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Geert Wirken",
+            "email": "geert@gwirken.nl"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "geertw\\Yii2\\TranslatableUrlRule\\": ""
+        }
+    }
+}
