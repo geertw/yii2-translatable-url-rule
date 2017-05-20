@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "geertw\\Yii2\\TranslatableUrlRule\\": ""
+            "geertw\\Yii2\\TranslatableUrlRule\\": "src/"
         }
     }
 }
