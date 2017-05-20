@@ -12,7 +12,7 @@ Because this extension uses [normal Yii2 UrlRule](http://www.yiiframework.com/do
 
 The current language is determined by the `Yii::$app->language` parameter. The value of this parameter is used to create and to parse URLs.
 
-This extension does **not** set the current language parameter. There are excellent plugins for that, like [codemix/yii2-localeurls](https://github.com/codemix/yii2-localeurls).
+This extension does **not** set the current language parameter. Use [codemix/yii2-localeurls](https://github.com/codemix/yii2-localeurls) for that.
 
 Installation
 ------------
@@ -83,3 +83,76 @@ return [
     ];
 ?>
 ```
+
+## Language switcher example
+
+Due to the way this library works, you need to specify **two** language parameters when creating URLs for routes in another language.
+
+The following two code snippets allow you to create a simple dropdown which allows users to select alternative languages for the current route:
+
+Create a widget like this:
+
+```php
+<?php
+
+namespace frontend\components;
+
+use Yii;
+use yii\bootstrap\Dropdown;
+
+class LanguageSwitcher extends Dropdown {
+    public $langLabels;
+
+    private $isError;
+
+    public function init() {
+        $route = Yii::$app->controller->route;
+        $params = $_GET;
+        $this->isError = $route === Yii::$app->errorHandler->errorAction;
+
+        array_unshift($params, '/' . $route);
+
+        foreach (Yii::$app->urlManager->languages as $language) {
+            $isWildcard = substr($language, -2) === '-*';
+            if ($isWildcard) {
+                $language = substr($language, 0, 2);
+            }
+            $params['language'] = $language;
+            $params['url-language'] = $language;
+            $this->items[] = [
+                'label' => $this->label($language),
+                'url'   => $params,
+            ];
+        }
+        parent::init();
+    }
+
+    public function run() {
+        // Only show this widget if we're not on the error page
+        if ($this->isError) {
+            return '';
+        } else {
+            return parent::run();
+        }
+    }
+
+    public function label($code) {
+        return isset($this->langLabels[$code]) ? $this->langLabels[$code] : null;
+    }
+}
+```
+
+Insert the following code in your view code:
+
+```php
+    <?= LanguageSwitcher::widget([
+        'options'    => ['class' => 'pull-right'],
+        'langLabels' => [
+            'de' => 'German',
+            'en' => 'English',
+            'nl' => 'Nederlands',
+        ],
+    ]) ?>
+```
+
+You might recognize this example, as it is largely based on the example for [yii2-localeurls](https://github.com/codemix/yii2-localeurls).
