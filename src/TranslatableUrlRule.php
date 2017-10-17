@@ -15,6 +15,7 @@ use yii\web\UrlRuleInterface;
  * @package geertw\Yii2\TranslatableUrlRule
  */
 class TranslatableUrlRule extends Object implements UrlRuleInterface {
+
     /**
      * @var string[] URL patterns. Key is language ID
      */
@@ -34,6 +35,11 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
      * @var string Parameter for determining which language to use (instead of app language)
      */
     public $languageParam = 'url-language';
+
+    /**
+     * @var bool If to force search in all language rules
+     */
+    public $forceRuleSearch = false;
 
     /**
      * Initialize TranslatableUrlRule
@@ -83,7 +89,36 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
 
         $result = $rule->parseRequest($manager, $request);
 
+        if (!$result && $this->forceRuleSearch) {
+            return $this->parseRequestForAllRules($manager, $request);
+        }
+
         return $result;
+    }
+
+    /**
+     * User can change language by typing in URL. Normal case will return 404, but
+     * we can force the search in all language rules and redirect user to desired page.
+     * 
+     * @param UrlManager $manager the URL manager
+     * @param Request $request    the request component
+     * @return array|bool the parsing result. The route and the parameters are returned as an array.
+     * If false, it means this rule cannot be used to parse this path info.
+     */
+    protected function parseRequestForAllRules($manager, $request) {
+        foreach ($this->rules as $rule) {
+            $result = $rule->parseRequest($manager, $request);
+
+            if ($result) {
+                list($route, $params) = $result;
+                array_unshift($params, $route);
+
+                Yii::$app->response->redirect($params);
+                Yii::$app->end();
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -110,4 +145,5 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
 
         return $rule->createUrl($manager, $route, $params);
     }
+
 }
