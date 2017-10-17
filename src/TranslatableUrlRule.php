@@ -28,7 +28,7 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
     /**
      * @var UrlRule[] Conventional URL rule objects, key is language ID
      */
-    private $rules;
+    protected $rules;
 
     /**
      * @var string Parameter for determining which language to use (instead of app language)
