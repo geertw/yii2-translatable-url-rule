@@ -90,7 +90,7 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
         $result = $rule->parseRequest($manager, $request);
 
         if (!$result && $this->forceRuleSearch) {
-            return $this->parseRequestForAllRules($manager, $request);
+            return $this->parseRequestForAllRules($manager, $request, $rule);
         }
 
         return $result;
@@ -102,11 +102,16 @@ class TranslatableUrlRule extends Object implements UrlRuleInterface {
      * 
      * @param UrlManager $manager the URL manager
      * @param Request $request    the request component
-     * @return array|bool the parsing result. The route and the parameters are returned as an array.
-     * If false, it means this rule cannot be used to parse this path info.
+     * @param UrlRule $parsedRule Url Rule Already parsed
+     * 
+     * @return array|bool
      */
-    protected function parseRequestForAllRules($manager, $request) {
+    protected function parseRequestForAllRules($manager, $request, $parsedRule) {
         foreach ($this->rules as $rule) {
+            if ($rule->name == $parsedRule->name) {
+                continue;
+            }
+
             $result = $rule->parseRequest($manager, $request);
 
             if ($result) {
