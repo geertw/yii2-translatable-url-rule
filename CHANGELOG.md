@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v1.2.0
+------
+
+* New parameter `forceRuleSearch` which forces to search through all rule patterns
+
 v1.1.1
 ------
 
