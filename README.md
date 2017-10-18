@@ -67,6 +67,8 @@ $rules = [
 The `route` parameter remains the same for all rules. `patterns` is an array of all patterns, the key must equal the Yii language identifier.
 If there is no pattern for a language, the first configured pattern will be used.
 
+Set `forceRuleSearch` to `true` to force searching in all rule patterns.
+
 You may omit the `class` configuration in your URL rules when you configure a [ruleConfig](http://www.yiiframework.com/doc-2.0/yii-web-urlmanager.html#$ruleConfig-detail) in UrlManager:
 
 ```php
