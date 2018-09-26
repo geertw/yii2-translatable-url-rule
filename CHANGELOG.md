@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.2.1
+------
+
+* Support for PHP 7.2 by extending BaseObject instead of Object class
+* Minimum Yii2 version is now 2.0.13
+
 v1.2.0
 ------
 
