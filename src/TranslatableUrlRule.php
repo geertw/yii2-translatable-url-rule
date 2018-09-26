@@ -4,7 +4,7 @@ namespace geertw\Yii2\TranslatableUrlRule;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\web\Request;
 use yii\web\UrlManager;
 use yii\web\UrlRule;
@@ -14,7 +14,7 @@ use yii\web\UrlRuleInterface;
  * Class TranslatableUrlRule
  * @package geertw\Yii2\TranslatableUrlRule
  */
-class TranslatableUrlRule extends Object implements UrlRuleInterface {
+class TranslatableUrlRule extends BaseObject implements UrlRuleInterface {
 
     /**
      * @var string[] URL patterns. Key is language ID
